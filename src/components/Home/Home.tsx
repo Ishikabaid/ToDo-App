@@ -20,7 +20,7 @@ const Home = () => {
   const [readOnly, setReadOnly] = useState<Boolean | any>(true)
   const [todoArr, setTodoArr] = useState<SelectedItem[]>([])
   const [curTodo, setCurTodo] = useState<string>("")
-  const { container, caret, slash, error, listElement, footer, list, arrow, down, head, input, btn, stackTop, stackTop2, heading, card, item, todoText } = classes;
+  const { container, caret, foot, slash, error, listElement, footer, list, arrow, down, head, input, btn, stackTop, stackTop2, heading, card, item, todoText } = classes;
   const [curBtnClicked, setCurBtnClicked] = useState<string>("")
   const [isAllSelected, setIsAllSelected, isAllSelectedRef] = useState<boolean>(false);
   const [curDbClick, setCurDbClick] = useState<any>(undefined);
@@ -40,7 +40,7 @@ const Home = () => {
   }
 
   const updateTodo = (e: any) => {
-    debugger
+
 
     if (e.keyCode === 13) {
       let isSame = false;
@@ -229,13 +229,18 @@ const Home = () => {
                 </ul>
               )
             }
-            <Footer onClear={clearCompleted} onClick={handleFilters} count={todoArr.length} />
+            {todoArr.length > 0 && <Footer onClear={clearCompleted} onClick={handleFilters} count={todoArr.length} />}
           </div>
         </div>
         <div className={stackTop}></div>
         <div className={stackTop2}></div>
         <div className={footer}></div>
+        <footer className={foot}>
+          <p>Double Click to Edit!</p>
+          <p>Created By <a target="_blank" rel='noreferrer' href="https://github.com/jat121">Jatin</a></p>
+        </footer>
       </div>
+      
     </>
   )
 }

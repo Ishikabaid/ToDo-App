@@ -2,9 +2,6 @@
     font-style: italic;
 }
 
-
-
-
 .container {
     width: 100%;
     height: 100%;
@@ -17,10 +14,8 @@
 .footer {
     margin: auto;
     padding: 50px;
-    
+
 }
-
-
 
 .heading {
     font-size: 50px;
@@ -50,8 +45,6 @@
     right: 17.02rem;
     position: absolute;
     background-color: #F5F5F5;
-
-
 }
 
 .card {
@@ -87,22 +80,34 @@
     width: 80%;
     display: inline-block;
     border: none;
-    caret-color: transparent ;
-
+    caret-color: transparent;
 }
+
+.todoText::selection {
+    color: none;
+    background: none;
+}
+
 .slash {
     text-decoration: line-through;
     color: lightgray;
 }
+
 .caret {
     caret-color: black;
-    box-shadow:inset 0 0 15px #888;
+    box-shadow: inset 0 0 15px #888;
     background: #fff;
     width: 100%;
+    user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
+
 .todoText:focus {
     border: none;
     outline: none;
+
 }
 
 .input {
@@ -128,6 +133,7 @@
     border: 1px solid lightgray;
     box-shadow: -1px -1px 2px darkgrey;
     margin: 3px;
+    
 }
 
 .arrow {
@@ -156,4 +162,37 @@
 
 .listElement {
     border: 1px solid lightgray;
+}
+
+.input::placeholder {
+    /* animation: var(--anime);
+    box-shadow: var(--box-shadow); */
+     color: var(--color);
+    font-weight: var(--font-weight); 
+    opacity: 0.5;
+}
+
+.error {
+    --anime: shake 0.2s ease-in-out 0s 2;
+    --box-shadow: 0 0 0.5em red inset;
+    --color: red;
+    --font-weight: 500
+}
+
+@keyframes shake {
+    0% {
+        margin-left: 0rem;
+    }
+
+    25% {
+        margin-left: 0.5rem;
+    }
+
+    75% {
+        margin-left: -0.5rem;
+    }
+
+    100% {
+        margin-left: 0rem;
+    }
 }

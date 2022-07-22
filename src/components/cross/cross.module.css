@@ -1,0 +1,29 @@
+
+.close {
+  position: relative;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 8%;
+  font-size: 0;
+}
+.close:before, 
+.close:after {
+  position: absolute;
+  top: 50%;
+  left: 90%;
+  width: 4px;
+  height: 15px;
+  background-color: rgb(255, 119, 119);
+  transform: rotate(45deg) translate(-50%, -50%);
+  transform-origin: top left;
+  transition: all 420ms;
+  content: '';
+}
+.close:after {
+  transform: rotate(-45deg) translate(-50%, -50%);
+}
+.close:hover:before, 
+.close:hover:after {
+  background-color: #e11e1e;
+}

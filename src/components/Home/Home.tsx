@@ -25,36 +25,19 @@ const Home = () => {
   const [isAllSelected, setIsAllSelected, isAllSelectedRef] = useState<boolean>(false);
   const [curDbClick, setCurDbClick] = useState<any>(undefined);
   const [filter, setFilter] = useState<string>("all");
-  const [sameValue, setSameValue, sameValueRef] = useState<boolean>(false);
   const inputRef = useRef(null);
 
 
-  useEffect(() => {
-    console.log(inputRef);
-  }, [])
+  console.log(todoArr);
+
 
   const addTodo = (e: any) => {
     setCurTodo(e.target.value);
-    setSameValue(false)
     setIsAllSelected(false)
   }
 
   const updateTodo = (e: any) => {
-
-
-    if (e.keyCode === 13) {
-      let isSame = false;
-      todoArr.forEach((item: any) => {
-        if (item.item === curTodo) {
-          isSame = true;
-        }
-      })
-      if (isSame) {
-        setSameValue(true);
-        setCurTodo("")
-        return;
-      }
-      setSameValue(false);
+    if (e.keyCode === 13 && curTodo.length > 0) {
       setTodoArr((prevState) => [...prevState, { item: curTodo, selected: false, isHover: false, doubleClicked: false }]);
       setCurTodo("")
     }
@@ -77,49 +60,48 @@ const Home = () => {
     })
   }
 
-  const selectOne = (itemTodo: string) => {
+  const selectOne = (index: number) => {
     setCurBtnClicked("one");
     setTodoArr((prevState: SelectedItem[]) => {
-      return prevState.map((item: SelectedItem) => {
-        if (item.item === itemTodo) item.selected = !item.selected;
+      return prevState.map((item: SelectedItem, i: number) => {
+        if (i === index) item.selected = !item.selected;
         return item;
       })
     })
   }
 
-  const getCheckMarkOrCircleImage = (item: SelectedItem) => {
-    const foundItem = todoArr.find((i: SelectedItem) => i.item === item.item);
+  const getCheckMarkOrCircleImage = (index: number) => {
+    const foundItem = todoArr.find((item: SelectedItem, i: number) => i === index);
     if (foundItem?.doubleClicked) return (<Blank />)
-    if (foundItem?.selected) return (<Checkmark onClick={() => selectOne(item.item)} />);
-    else return (<Circle onClick={() => selectOne(item.item)} />);
+    if (foundItem?.selected) return (<Checkmark onClick={() => selectOne(index)} />);
+    else return (<Circle onClick={() => selectOne(index)} />);
   }
 
-  const handleHover = (itemHover: SelectedItem) => {
+  const handleHover = (index: number) => {
     setTodoArr((prevState: SelectedItem[]) => {
-      return prevState.map((item: SelectedItem) => {
-        if (item.item === itemHover.item) item.isHover = true;
+      return prevState.map((item: SelectedItem, i: number) => {
+        if (i === index) item.isHover = true;
         return item;
       })
     })
   }
 
-  const handleHoverLeave = (itemHover: SelectedItem) => {
+  const handleHoverLeave = (index: number) => {
     setTodoArr((prevState: SelectedItem[]) => {
-      return prevState.map((item: SelectedItem) => {
-        if (item.item === itemHover.item) item.isHover = false;
+      return prevState.map((item: SelectedItem, i: number) => {
+        if (i === index) item.isHover = false;
         return item;
       })
     })
   }
 
-  const handleDoubleClick = (e: any, itemDbClicked: SelectedItem): any => {
+  const handleDoubleClick = (e: any, index: number): any => {
     e.preventDefault()
     setCurDbClick(e.target);
     setReadOnly(false);
-    // e.currentTarget.style.width = "100%";
     setTodoArr((prevState: SelectedItem[]) => {
-      return prevState.map((item: SelectedItem) => {
-        if (item.item === itemDbClicked.item) item.doubleClicked = true;
+      return prevState.map((item: SelectedItem, i: number) => {
+        if (i === index) item.doubleClicked = true;
         return item;
       })
     })
@@ -129,24 +111,27 @@ const Home = () => {
   const resetDbClick = (e: any) => {
     if (curDbClick && (e.target !== curDbClick)) {
       setTodoArr((prevState: SelectedItem[]) => {
-        return prevState.map((item: SelectedItem) => {
+       prevState.forEach((item: SelectedItem) => {
           item.doubleClicked = false;
-          return item;
         })
+        return prevState.filter((item:SelectedItem) => item.item.length > 0); 
       })
     }
   }
   const editingComplete = (e: any) => {
+    if(e.keyCode === 27) {
+      
+    }
     if (e.keyCode === 13) {
       setTodoArr((prevState: SelectedItem[]) => {
-        return prevState.map((item: SelectedItem) => {
+        prevState.forEach((item: SelectedItem) => {
           item.doubleClicked = false;
-          return item;
         })
+        return prevState.filter((item:SelectedItem) => item.item.length > 0);
       })
     }
-
   }
+
   const editTodo = (e: any, item: SelectedItem, index: number) => {
     setTodoArr((prevState: SelectedItem[]) => {
       return prevState.map((item: SelectedItem, i: number) => {
@@ -165,25 +150,19 @@ const Home = () => {
   }
 
   const removeElement = (id: number) => {
-    setTodoArr((prevState: SelectedItem[]) => {
-      return prevState.filter((item: SelectedItem, i: number) => i !== id);
-    })
+    setTodoArr((prevState: SelectedItem[]) => prevState.filter((item: SelectedItem, i: number) => i !== id));
   }
-
 
   return (
     <>
       <div onMouseDown={resetDbClick} className={container}>
         <h1 className={heading}>todos</h1>
-
         <div className={card}>
-
           <div className={item}>
             <div className={head}>
               <span onClick={selectAll} className={`${btn}`}><i className={`${arrow} ${down}`}></i><p></p></span>
-              <input ref={inputRef} type="text" onKeyDown={updateTodo} value={curTodo} className={`${input} ${sameValue ? error : ""}`} onChange={addTodo} placeholder={!sameValue ? "What Needs to be done!" : "HEY! This Todo Already Exists!"} />
+              <input ref={inputRef} type="text" onKeyDown={updateTodo} value={curTodo} className={`${input}`} onChange={addTodo} placeholder={"What Needs to be done!"} />
             </div>
-
             {
               todoArr.length > 0 && (
                 <ul className={list}>
@@ -191,10 +170,10 @@ const Home = () => {
                     todoArr.map((item: SelectedItem, index: number) => {
                       if (filter === "all") {
                         return (
-                          <li key={index} onMouseEnter={() => handleHover(item)} onMouseLeave={() => handleHoverLeave(item)} className={listElement} >
+                          <li key={index} onMouseEnter={() => handleHover(index)} onMouseLeave={() => handleHoverLeave(index)} className={listElement} >
                             <>
-                              {getCheckMarkOrCircleImage(item)}
-                              <input unselectable='on' onMouseDown={() => false} onSelect={() => false} ref={inputRef} readOnly={readOnly} onKeyDown={editingComplete} value={item.item} onChange={(e) => { editTodo(e, item, index) }} className={`${todoText} ${item.selected && slash} ${item.doubleClicked && caret}`} onDoubleClick={($event: any) => handleDoubleClick($event, item)}></input>
+                              {getCheckMarkOrCircleImage(index)}
+                              <input unselectable='on' onMouseDown={() => false} onSelect={() => false} ref={inputRef} readOnly={readOnly} onKeyDown={editingComplete} value={item.item} onChange={(e) => { editTodo(e, item, index) }} className={`${todoText} ${item.selected && slash} ${item.doubleClicked && caret}`} onDoubleClick={($event: any) => handleDoubleClick($event, index)}></input>
                               {(item.isHover && !item.doubleClicked) && <Cross onClick={() => removeElement(index)} />}
                             </>
                           </li>
@@ -202,10 +181,10 @@ const Home = () => {
                       } else if (filter === "active") {
                         if (!item.selected) {
                           return (
-                            <li key={index} onMouseEnter={() => handleHover(item)} onMouseLeave={() => handleHoverLeave(item)} className={listElement} >
+                            <li key={index} onMouseEnter={() => handleHover(index)} onMouseLeave={() => handleHoverLeave(index)} className={listElement} >
                               <>
-                                {getCheckMarkOrCircleImage(item)}
-                                <input readOnly={readOnly} onKeyDown={editingComplete} value={item.item} onChange={(e) => { editTodo(e, item, index) }} className={`${todoText} ${item.selected && slash} ${item.doubleClicked && caret}`} onDoubleClick={($event: any) => handleDoubleClick($event, item)}></input>
+                                {getCheckMarkOrCircleImage(index)}
+                                <input readOnly={readOnly} onKeyDown={editingComplete} value={item.item} onChange={(e) => { editTodo(e, item, index) }} className={`${todoText} ${item.selected && slash} ${item.doubleClicked && caret}`} onDoubleClick={($event: any) => handleDoubleClick($event, index)}></input>
                                 {(item.isHover && !item.doubleClicked) && <Cross onClick={() => removeElement(index)} />}
                               </>
                             </li>
@@ -214,10 +193,10 @@ const Home = () => {
                       } else {
                         if (item.selected) {
                           return (
-                            <li key={index} onMouseEnter={() => handleHover(item)} onMouseLeave={() => handleHoverLeave(item)} className={listElement} >
+                            <li key={index} onMouseEnter={() => handleHover(index)} onMouseLeave={() => handleHoverLeave(index)} className={listElement} >
                               <>
-                                {getCheckMarkOrCircleImage(item)}
-                                <input ref={inputRef} readOnly={readOnly} onKeyDown={editingComplete} value={item.item} onChange={(e) => { editTodo(e, item, index) }} className={`${todoText} ${item.selected && slash} ${item.doubleClicked && caret}`} onDoubleClick={($event: any) => handleDoubleClick($event, item)}></input>
+                                {getCheckMarkOrCircleImage(index)}
+                                <input ref={inputRef} readOnly={readOnly} onKeyDown={editingComplete} value={item.item} onChange={(e) => { editTodo(e, item, index) }} className={`${todoText} ${item.selected && slash} ${item.doubleClicked && caret}`} onDoubleClick={($event: any) => handleDoubleClick($event, index)}></input>
                                 {(item.isHover && !item.doubleClicked) && <Cross onClick={() => removeElement(index)} />}
                               </>
                             </li>
@@ -240,7 +219,7 @@ const Home = () => {
           <p>Created By <a target="_blank" rel='noreferrer' href="https://github.com/jat121">Jatin</a></p>
         </footer>
       </div>
-      
+
     </>
   )
 }

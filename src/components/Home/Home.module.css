@@ -99,9 +99,9 @@
     background: #fff;
     width: 100%;
     user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .todoText:focus {
@@ -133,7 +133,7 @@
     border: 1px solid lightgray;
     box-shadow: -1px -1px 2px darkgrey;
     margin: 3px;
-    
+
 }
 
 .arrow {
@@ -167,8 +167,8 @@
 .input::placeholder {
     /* animation: var(--anime);
     box-shadow: var(--box-shadow); */
-     color: var(--color);
-    font-weight: var(--font-weight); 
+    color: var(--color);
+    font-weight: var(--font-weight);
     opacity: 0.5;
 }
 
@@ -199,13 +199,13 @@
 
 .foot {
     margin: 65px auto 0;
-      color: #800000;
-      font-size: 11px;
-      text-shadow: 0 1px 0 lightgray;
-      text-align: center;
-  }
+    color: #800000;
+    font-size: 11px;
+    text-shadow: 0 1px 0 lightgray;
+    text-align: center;
+}
 
-  .foot a {
+.foot a {
     color: inherit;
     font-weight: 700;
-  }
+}

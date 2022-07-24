@@ -1,8 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classes from './footer.module.css'
-const Footer = ({ count, onClick, onClear }: any) => {
+const Footer = ({ count, onClick, onClear, todoList }: any) => {
     const [isSelected, setIsSelected] = useState<string>("all")
     const { footer, btn, filters, border, countCss } = classes;
+    const [showClear, setShowClear] = useState<boolean>(false);
+    useEffect(()=>{
+        let show = false;
+        todoList.forEach((item: any) => {
+            if(item.selected === true) {
+                show = true;
+            }
+        })
+        setShowClear(show);
+    },[todoList])
+
     return (
         <footer className={footer}>
             <span className={countCss}> {count} item left</span>
@@ -28,7 +39,7 @@ const Footer = ({ count, onClick, onClear }: any) => {
                     </button>
                 </li>
             </ul>
-            <button onClick={onClear} className={btn}>Clear Completed</button>
+            {showClear && <button onClick={onClear} className={btn}>Clear Completed</button> }
         </footer>
     )
 }

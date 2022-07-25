@@ -97,8 +97,8 @@ const Home = () => {
   }
 
   const resetDbClick = (e: any) => {
-    setIsEditing(false)
     if (curDbClick && (e.target !== curDbClick)) {
+    setIsEditing(false)
       setTodoArr((prevState: SelectedItem[]) => {
         prevState.forEach((item: SelectedItem) => {
           item.doubleClicked = false;
@@ -156,6 +156,7 @@ const Home = () => {
   }
 
   const escape = (e: any) => {
+    debugger
     if (isEditing) {
       if (e.keyCode === 27) {
         setIsEditing(false)

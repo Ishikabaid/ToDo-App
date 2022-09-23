@@ -1,5 +1,3 @@
-
-
 import Footer from '../footer/Footer';
 import useState from "react-usestateref"
 import classes from './Home.module.css'
@@ -236,11 +234,11 @@ const Home = () => {
         <div className={footer}></div>
         <footer className={foot}>
           <p>Double Click to Edit!</p>
-          <p>Created By <a target="_blank" rel='noreferrer' href="https://github.com/jat121">Jatin</a></p>
+          <p>Created By Ishika Baid</p>
         </footer>
       </form>
     </>
   )
 }
 
-export default Home
+export default Home;

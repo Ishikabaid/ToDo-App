@@ -1,8 +1,8 @@
 import Footer from '../footer/Footer';
-import useState from "react-usestateref"
-import classes from './Home.module.css'
+import useState from "react-usestateref";
+import classes from './Home.module.css';
 import Cross from '../Shapes/cross/Cross';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import Blank from '../Shapes/blank/blank';
 import Checkmark from '../Shapes/CheckMark/Checkmark';
 import Circle from '../Shapes/circle/Circle';
@@ -13,11 +13,12 @@ interface SelectedItem {
   isHover: boolean;
   doubleClicked: boolean
 }
-const { container, caret, foot, slash, listElement, footer, list, arrow, down, head, input, btn, stackTop, stackTop2, heading, card, item, todoText } = classes;
+const { container, caret, foot, slash, listElement, footer, list, arrow, down, head, input, btn, heading, card, item, todoText } = classes;
+
 const Home = () => {
-  const [readOnly, setReadOnly] = useState<Boolean | any>(true)
-  const [todoArr, setTodoArr] = useState<SelectedItem[]>([])
-  const [curTodo, setCurTodo] = useState<string>("")
+  const [readOnly, setReadOnly] = useState<Boolean | any>(true);
+  const [todoArr, setTodoArr] = useState<SelectedItem[]>([]);
+  const [curTodo, setCurTodo] = useState<string>("");
   const [isAllSelected, setIsAllSelected, isAllSelectedRef] = useState<boolean>(false);
   const [curDbClick, setCurDbClick] = useState<any>(undefined);
   const [filter, setFilter] = useState<string>("all");
@@ -28,7 +29,7 @@ const Home = () => {
 
   const addTodo = (e: any) => {
     setCurTodo(e.target.value);
-    setIsAllSelected(false)
+    setIsAllSelected(false);
   }
 
   const selectAll = () => {
@@ -174,7 +175,7 @@ const Home = () => {
   return (
     <>
       <form onKeyDown={escape} onSubmit={doSubmit} onMouseDown={resetDbClick} className={container}>
-        <h1 className={heading}>todos</h1>
+        <h1 className={heading}>Add Tasks</h1>
         <div className={card}>
           <div className={item}>
             <div className={head}>
@@ -229,8 +230,6 @@ const Home = () => {
             {todoArr.length > 0 && <Footer todoList={todoArr} onClear={clearCompleted} onClick={handleFilters} count={todoArr.length} />}
           </div>
         </div>
-        <div className={stackTop}></div>
-        <div className={stackTop2}></div>
         <div className={footer}></div>
         <footer className={foot}>
           <p>Double Click to Edit!</p>

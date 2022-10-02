@@ -1,4 +1,3 @@
-import React from 'react'
 
 const Checkmark = ({ onClick }: any) => {
     return (
@@ -17,4 +16,4 @@ const Checkmark = ({ onClick }: any) => {
     )
 }
 
-export default Checkmark
+export default Checkmark;

@@ -1,5 +1,5 @@
-import React from 'react'
-import classes from './cross.module.css'
+import classes from './cross.module.css';
+
 const Cross = ({onClick}: any) => {
     return (
         <>
